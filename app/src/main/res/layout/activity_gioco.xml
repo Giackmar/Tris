@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view"
+    style="@style/CustomActivityAnimation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:scrollbarThumbHorizontal="@android:color/black"
+    android:scrollbarThumbVertical="@android:color/black">
+
+    <Button
+        android:id="@+id/btn_nuovaPartita"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="NUOVA PARTITA"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_azzeraPunti" />
+
+    <Button
+        android:id="@+id/btn_02"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/btn_12"
+        app:layout_constraintStart_toEndOf="@+id/btn_01" />
+
+    <Button
+        android:id="@+id/btn_01"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/btn_11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_00"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/btn_10"
+        app:layout_constraintEnd_toStartOf="@+id/btn_01" />
+
+    <Button
+        android:id="@+id/btn_10"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_11"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_11"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_12"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_11"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_20"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/btn_21"
+        app:layout_constraintTop_toBottomOf="@+id/btn_10" />
+
+    <Button
+        android:id="@+id/btn_21"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_11" />
+
+    <Button
+        android:id="@+id/btn_22"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/btn_21"
+        app:layout_constraintTop_toBottomOf="@+id/btn_12" />
+
+    <TextView
+        android:id="@+id/txt_Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/comfortaa_light"
+        android:scrollbarThumbHorizontal="@android:color/black"
+        android:scrollbarThumbVertical="@android:color/black"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_00"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_00"
+        app:layout_constraintEnd_toEndOf="@+id/btn_00"
+        app:layout_constraintStart_toStartOf="@+id/btn_00"
+        app:layout_constraintTop_toTopOf="@+id/btn_00" />
+
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_12"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_12"
+        app:layout_constraintEnd_toEndOf="@+id/btn_12"
+        app:layout_constraintStart_toStartOf="@+id/btn_12"
+        app:layout_constraintTop_toTopOf="@+id/btn_12" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_11"
+        android:layout_width="79dp"
+        android:layout_height="78dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_11"
+        app:layout_constraintEnd_toEndOf="@+id/btn_11"
+        app:layout_constraintStart_toStartOf="@+id/btn_11"
+        app:layout_constraintTop_toTopOf="@+id/btn_11" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_10"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_10"
+        app:layout_constraintEnd_toEndOf="@+id/btn_10"
+        app:layout_constraintStart_toStartOf="@+id/btn_10"
+        app:layout_constraintTop_toTopOf="@+id/btn_10" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_02"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_02"
+        app:layout_constraintEnd_toEndOf="@+id/btn_02"
+        app:layout_constraintStart_toStartOf="@+id/btn_02"
+        app:layout_constraintTop_toTopOf="@+id/btn_02" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_22"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_22"
+        app:layout_constraintEnd_toEndOf="@+id/btn_22"
+        app:layout_constraintStart_toStartOf="@+id/btn_22"
+        app:layout_constraintTop_toTopOf="@+id/btn_22" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_01"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_01"
+        app:layout_constraintEnd_toEndOf="@+id/btn_01"
+        app:layout_constraintStart_toStartOf="@+id/btn_01"
+        app:layout_constraintTop_toTopOf="@+id/btn_01" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_21"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_21"
+        app:layout_constraintEnd_toEndOf="@+id/btn_21"
+        app:layout_constraintStart_toStartOf="@+id/btn_21"
+        app:layout_constraintTop_toTopOf="@+id/btn_21" />
+
+    <com.example.tris.Cerchio
+        android:id="@+id/cerchio_20"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_20"
+        app:layout_constraintEnd_toEndOf="@+id/btn_20"
+        app:layout_constraintStart_toStartOf="@+id/btn_20"
+        app:layout_constraintTop_toTopOf="@+id/btn_20" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_22"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_22"
+        app:layout_constraintEnd_toEndOf="@+id/btn_22"
+        app:layout_constraintStart_toStartOf="@+id/btn_22"
+        app:layout_constraintTop_toTopOf="@+id/btn_22" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_21"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_21"
+        app:layout_constraintEnd_toEndOf="@+id/btn_21"
+        app:layout_constraintStart_toStartOf="@+id/btn_21"
+        app:layout_constraintTop_toTopOf="@+id/btn_21" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_20"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_20"
+        app:layout_constraintEnd_toEndOf="@+id/btn_20"
+        app:layout_constraintStart_toStartOf="@+id/btn_20"
+        app:layout_constraintTop_toTopOf="@+id/btn_20" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_12"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_12"
+        app:layout_constraintEnd_toEndOf="@+id/btn_12"
+        app:layout_constraintStart_toStartOf="@+id/btn_12"
+        app:layout_constraintTop_toTopOf="@+id/btn_12" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_11"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_11"
+        app:layout_constraintEnd_toEndOf="@+id/btn_11"
+        app:layout_constraintStart_toStartOf="@+id/btn_11"
+        app:layout_constraintTop_toTopOf="@+id/btn_11" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_10"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_10"
+        app:layout_constraintEnd_toEndOf="@+id/btn_10"
+        app:layout_constraintStart_toStartOf="@+id/btn_10"
+        app:layout_constraintTop_toTopOf="@+id/btn_10" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_02"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_02"
+        app:layout_constraintEnd_toEndOf="@+id/btn_02"
+        app:layout_constraintStart_toStartOf="@+id/btn_02"
+        app:layout_constraintTop_toTopOf="@+id/btn_02" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_01"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_01"
+        app:layout_constraintEnd_toEndOf="@+id/btn_01"
+        app:layout_constraintStart_toStartOf="@+id/btn_01"
+        app:layout_constraintTop_toTopOf="@+id/btn_01" />
+
+    <com.example.tris.Croce
+        android:id="@+id/croce_00"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_00"
+        app:layout_constraintEnd_toEndOf="@+id/btn_00"
+        app:layout_constraintStart_toStartOf="@+id/btn_00"
+        app:layout_constraintTop_toTopOf="@+id/btn_00" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_tictactoebackgroundtable" />
+
+    <TextView
+        android:id="@+id/textViewX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="Giocatore X: 0"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/comfortaa_light"
+        android:scrollbarThumbHorizontal="@android:color/black"
+        android:scrollbarThumbVertical="@android:color/black"
+        android:text="Giocatore O: 0"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewX"
+        app:layout_constraintTop_toBottomOf="@+id/textViewX" />
+
+    <Button
+        android:id="@+id/btn_back"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_azzeraPunti"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="AZZERA PUNTI"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_nuovaPartita"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_difficolta"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="FACILE"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
