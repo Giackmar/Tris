@@ -6,14 +6,19 @@ import android.widget.Button;
 public class Gioco{
 
     private Cella[][] matriceGioco;
-    private int difficolta;
-    Boolean giocatore;
-    Boolean inGioco;
-    int[] vittorieX;
-    int[] vittorieO;
-    int[] pareggio;
 
-    public Gioco(Button[][] matriceBottoni, Cerchio[][] matriceCerchi, Croce[][] matriceCroci, double rateo, int difficolta)
+    Boolean giocatore;
+
+    Boolean inGioco;
+
+    private int difficolta;
+
+    private int[] vittorieX;
+    private int[] vittorieO;
+    private int[] pareggio;
+
+
+    Gioco(Button[][] matriceBottoni, Cerchio[][] matriceCerchi, Croce[][] matriceCroci, double rateo, int difficolta)
     {
         this.difficolta = difficolta;
         matriceGioco = new Cella[3][3];
@@ -53,7 +58,9 @@ public class Gioco{
         giocatore = true;
     }
 
-    public boolean pareggio()
+
+
+    boolean pareggio()
     {
         boolean finita = true;
         for(int riga=0; riga<3; riga++)
@@ -74,7 +81,7 @@ public class Gioco{
         return finita;
     }
 
-    public boolean haVinto(String s)
+    boolean vittoria(String s)
     {
         boolean vittoria = controlloVittoria(s);
         if(vittoria)
@@ -92,7 +99,7 @@ public class Gioco{
         return vittoria;
     }
 
-    public boolean controlloVittoria(String s)
+    boolean controlloVittoria(String s)
     {
         boolean vittoria = false;
         int cont = 0;
@@ -142,7 +149,7 @@ public class Gioco{
         return vittoria;
     }
 
-    public boolean partitaFinita()
+    boolean partitaFinita()
     {
         if(pareggio())
         {
@@ -157,30 +164,8 @@ public class Gioco{
     }
 
 
-    public void clickCella(Button bottoneCliccato)
-    {
-        for(int linea=0; linea<3; linea++)
-        {
-            for(int colonna=0; colonna<3; colonna++)
-            {
-                if(matriceGioco[linea][colonna].getButton()==bottoneCliccato && !matriceGioco[linea][colonna].occupato)
-                {
-                    if(giocatore)
-                    {
-                        matriceGioco[linea][colonna].scrivi("x");
-                        giocatore = false;
-                    }
-                    else
-                    {
-                        matriceGioco[linea][colonna].scrivi("o");
-                        giocatore = true;
-                    }
-                }
-            }
-        }
-    }
 
-    public void clickCellaBot(Button bottoneCliccato, int difficolta)
+    void posizionaSimbolo(Button bottoneCliccato, int difficolta)
     {
         this.difficolta = difficolta;
         for(int linea=0; linea<3; linea++)
@@ -189,26 +174,42 @@ public class Gioco{
             {
                 if(matriceGioco[linea][colonna].getButton()==bottoneCliccato && !matriceGioco[linea][colonna].occupato)
                 {
-                    matriceGioco[linea][colonna].scrivi("x");
-                    if(partitaFinita())return;
-                    if(difficolta==1)
+                    if(difficolta==0)
                     {
-                        botClickFacile();
-                    }
-                    else if(difficolta==2)
-                    {
-                        botClickDifficile();
+                        if(giocatore)
+                        {
+                            matriceGioco[linea][colonna].scrivi("x");
+                            giocatore = false;
+                        }
+                        else
+                        {
+                            matriceGioco[linea][colonna].scrivi("o");
+                            giocatore = true;
+                        }
                     }
                     else
                     {
-                        botClickImpossibile();
+                        matriceGioco[linea][colonna].scrivi("x");
+                        if(partitaFinita())return;
+                        if(difficolta==1)
+                        {
+                            botClickFacile();
+                        }
+                        else if(difficolta==2)
+                        {
+                            botClickDifficile();
+                        }
+                        else
+                        {
+                            botClickImpossibile();
+                        }
                     }
                 }
             }
         }
     }
 
-    public void botClickFacile()
+    private void botClickFacile()
     {
         boolean cellaVuota = false;
         while(!cellaVuota)
@@ -226,7 +227,7 @@ public class Gioco{
 
     }
 
-    public void botClickDifficile()
+    private void botClickDifficile()
     {
         if(giocatoreStaVincendo("o"))
         {
@@ -250,7 +251,7 @@ public class Gioco{
         }
     }
 
-    public void botClickImpossibile()
+    private void botClickImpossibile()
     {
         if(giocatoreStaVincendo("o"))
         {
@@ -278,7 +279,7 @@ public class Gioco{
         }
     }
 
-    public int casoSpeciale()
+    private int casoSpeciale()
     {
         if(matriceGioco[0][0].getPlayer()=="x" && matriceGioco[2][2].getPlayer()=="x")
         {
@@ -305,7 +306,7 @@ public class Gioco{
         return 0;
     }
 
-    public void bloccaCasoSpeciale(int caso)
+    private void bloccaCasoSpeciale(int caso)
     {
         if(caso == 1)
         {
@@ -317,7 +318,7 @@ public class Gioco{
         }
     }
 
-    public void posizionaPerVittoria(String giocatore)
+    private void posizionaPerVittoria(String giocatore)
     {
         for(int riga=0; riga<3; riga++)
         {
@@ -423,7 +424,7 @@ public class Gioco{
         }
     }
 
-    public void botClickIntelligente()
+    private void botClickIntelligente()
     {
         if(!matriceGioco[1][1].occupato) {
             matriceGioco[1][1].scrivi("o");
@@ -531,7 +532,7 @@ public class Gioco{
         botClickFacile();
     }
 
-    public int contatore(int n1, int n2, int diag)
+    private int contatore(int n1, int n2, int diag)
     {
         int cont = 0;
         for(int i=0; i<3; i++)
@@ -562,7 +563,7 @@ public class Gioco{
         return cont;
     }
 
-    public boolean giocatoreStaVincendo(String giocatore)
+    private boolean giocatoreStaVincendo(String giocatore)
     {
         for(int riga=0; riga<3; riga++)
         {
@@ -645,7 +646,7 @@ public class Gioco{
         return false;
     }
 
-    public Cella bloccaAvversario()
+    private Cella bloccaAvversario()
     {
         int cont;
         Cella cella = null;
@@ -754,27 +755,27 @@ public class Gioco{
     public String ottieniStats()
     {
         String stats = "\n\n\n\n\n\n";
-        stats+="  MODALITA FACILE:\n";
-        stats+="    Vinte:  "+vittorieX[1]+"\n";
-        stats+="    Perse:  "+vittorieO[1]+"\n";
-        stats+="    Pareggi:  "+pareggio[1]+"\n\n";
-        stats+="  MODALITA DIFFICILE:\n";
-        stats+="    Vinte:  "+vittorieX[2]+"\n";
-        stats+="    Perse:  "+vittorieO[2]+"\n";
-        stats+="    Pareggi:  "+pareggio[2]+"\n\n";
-        stats+="  MODALITA IMPOSSIBILE:\n";
-        stats+="    Vinte:  "+vittorieX[3]+"\n";
-        stats+="    Perse:  "+vittorieO[3]+"\n";
-        stats+="    Pareggi:  "+pareggio[3];
+        stats+="MODALITA FACILE\n";
+        stats+="Vinte:  "+vittorieX[1]+"\n";
+        stats+="Perse:  "+vittorieO[1]+"\n";
+        stats+="Pareggi:  "+pareggio[1]+"\n\n";
+        stats+="MODALITA DIFFICILE\n";
+        stats+="Vinte:  "+vittorieX[2]+"\n";
+        stats+="Perse:  "+vittorieO[2]+"\n";
+        stats+="Pareggi:  "+pareggio[2]+"\n\n";
+        stats+="MODALITA IMPOSSIBILE\n";
+        stats+="Vinte:  "+vittorieX[3]+"\n";
+        stats+="Perse:  "+vittorieO[3]+"\n";
+        stats+="Pareggi:  "+pareggio[3];
         return stats;
     }
 
     public String ottieniStatsMultyPlayer()
     {
         String stats = "\n\n\n\n\n\n";
-        stats+="    Vittorie x:  "+vittorieX[0]+"\n";
-        stats+="    Vittorie o:  "+vittorieO[0]+"\n";
-        stats+="    Pareggi:  "+pareggio[0];
+        stats+="VITTORIE X:  "+vittorieX[0]+"\n";
+        stats+="VITTORIE O:  "+vittorieO[0]+"\n";
+        stats+="PAREGGI:  "+pareggio[0];
         return stats;
     }
 

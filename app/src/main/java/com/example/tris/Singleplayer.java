@@ -1,8 +1,10 @@
 package com.example.tris;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -10,9 +12,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 public class Singleplayer extends AppCompatActivity {
     Gioco gioco;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     View.OnClickListener clickBottoneTris;
     Button btnNuovaPartita;
@@ -64,7 +69,6 @@ public class Singleplayer extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(Singleplayer.this, StartActivity.class));
         finish();
     }
 
@@ -75,7 +79,7 @@ public class Singleplayer extends AppCompatActivity {
 
         setContentView(R.layout.activity_gioco);
 
-
+        //caricaStats();
 
         tabellaInfo = findViewById(R.id.txt_Info);
 
@@ -157,7 +161,6 @@ public class Singleplayer extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Singleplayer.this, StartActivity.class));
                 finish();
             }
         });
@@ -167,7 +170,7 @@ public class Singleplayer extends AppCompatActivity {
             @Override
             public void onClick(View btn) {
                 if (gioco.inGioco) {
-                    gioco.clickCellaBot(dammiBottone(btn.getId()), difficolta);
+                    gioco.posizionaSimbolo(dammiBottone(btn.getId()), difficolta);
                     aggiornaTabella();
                     btnDifficolta.setEnabled(false);
                 }
@@ -275,10 +278,10 @@ public class Singleplayer extends AppCompatActivity {
     }
 
     void aggiornaTabella() {
-        if (gioco.haVinto("x")) {
+        if (gioco.vittoria("x")) {
             tabellaInfo.setText("Hai vinto!");
 
-        } else if (gioco.haVinto("o")) {
+        } else if (gioco.vittoria("o")) {
             tabellaInfo.setText("Hai perso");
 
         } else if (gioco.pareggio()) {

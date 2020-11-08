@@ -16,28 +16,30 @@ public class StartActivity extends AppCompatActivity {
     Button btnSingleplayer;
     ImageView imageView;
 
+    Intent intentMultiplayer;
+    Intent intentSingleplayer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        intentMultiplayer = new Intent(StartActivity.this, MultiplayerActivity.class);
+        intentSingleplayer = new Intent(StartActivity.this, Singleplayer.class);
         btnMultiplayer = findViewById(R.id.btn_multiPlayer);
         btnSingleplayer = findViewById(R.id.btn_singlePlayer);
         imageView = findViewById(R.id.imageView2);
         btnMultiplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, MultiplayerActivity.class));
-                finish();
+                startActivity(intentMultiplayer);
             }
         });
 
         btnSingleplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this, Singleplayer.class));
-                finish();
+                startActivity(intentSingleplayer);
             }
         });
 

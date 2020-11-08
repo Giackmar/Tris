@@ -63,7 +63,6 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        startActivity(new Intent(MultiplayerActivity.this, StartActivity.class));
         finish();
     }
 
@@ -131,7 +130,6 @@ public class MultiplayerActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MultiplayerActivity.this, StartActivity.class));
                 finish();
             }
         });
@@ -142,7 +140,7 @@ public class MultiplayerActivity extends AppCompatActivity {
             public void onClick(View btn) {
                 if(gioco.inGioco)
                 {
-                    gioco.clickCella(dammiBottone(btn.getId()));
+                    gioco.posizionaSimbolo(dammiBottone(btn.getId()),0);
                     aggiornaTabella();
                 }
             }
@@ -256,12 +254,12 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     void aggiornaTabella()
     {
-        if(gioco.haVinto("x"))
+        if(gioco.vittoria("x"))
         {
             tabellaInfo.setText("Ha vinto il giocatore: X");
 
         }
-        else if(gioco.haVinto("o"))
+        else if(gioco.vittoria("o"))
         {
             tabellaInfo.setText("Ha vinto il giocatore: O");
 
