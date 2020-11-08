@@ -115,7 +115,11 @@ public class Gioco{
 
     public void botClickDifficile()
     {
-        if(avversarioStaPerVincere())
+        if(giocatoreStaVincendo("o"))
+        {
+            posizionaPerVittoria("o");
+        }
+        else if(giocatoreStaVincendo("x"))
         {
             Cella cella = bloccaAvversario();
             if(cella!=null)
@@ -124,28 +128,285 @@ public class Gioco{
             }
             else
             {
-                botClickFacile();
+                botClickIntelligente();
             }
+        }
+        else if(casoSpeciale()>0)
+        {
+            bloccaCasoSpeciale(casoSpeciale());
         }
         else
         {
-            botClickFacile();
+            botClickIntelligente();
         }
     }
 
-    public boolean avversarioStaPerVincere()
+    public int casoSpeciale()
+    {
+        if(matriceGioco[0][0].getPlayer()=="x" && matriceGioco[2][2].getPlayer()=="x")
+        {
+            if(!matriceGioco[0][1].occupato && !matriceGioco[0][2].occupato && !matriceGioco[1][2].occupato)
+            {
+                return 1;
+            }
+            if(!matriceGioco[1][0].occupato && !matriceGioco[2][0].occupato && !matriceGioco[2][1].occupato)
+            {
+                return 2;
+            }
+        }
+        if(matriceGioco[0][2].getPlayer()=="x" && matriceGioco[2][0].getPlayer()=="x")
+        {
+            if(!matriceGioco[0][1].occupato && !matriceGioco[0][0].occupato && !matriceGioco[1][0].occupato)
+            {
+                return 1;
+            }
+            if(!matriceGioco[1][2].occupato && !matriceGioco[2][1].occupato && !matriceGioco[2][2].occupato)
+            {
+                return 2;
+            }
+        }
+        return 0;
+    }
+
+    public void bloccaCasoSpeciale(int caso)
+    {
+        if(caso == 1)
+        {
+            matriceGioco[2][1].scrivi("o");
+        }
+        else
+        {
+            matriceGioco[2][1].scrivi("o");
+        }
+    }
+
+    public void posizionaPerVittoria(String giocatore)
     {
         for(int riga=0; riga<3; riga++)
         {
             int cont = 0;
+            boolean ok = true;
+            Cella cella = null;
             for(int colonna=0; colonna<3; colonna++)
             {
-                if(matriceGioco[riga][colonna].getPlayer()=="x")
+                if(matriceGioco[riga][colonna].getPlayer()==giocatore)
+                {
+                    cont++;
+                }
+                else if(matriceGioco[riga][colonna].occupato)
+                {
+                    ok = false;
+                }
+                else
+                {
+                    cella = matriceGioco[riga][colonna];
+                }
+
+            }
+            if(cont>1 && ok && cella!= null)
+            {
+                cella.scrivi("o");
+                return;
+            }
+        }
+
+        for(int colonna=0; colonna<3; colonna++)
+        {
+            int cont = 0;
+            boolean ok = true;
+            Cella cella = null;
+            for(int riga=0; riga<3; riga++)
+            {
+                if(matriceGioco[riga][colonna].getPlayer()==giocatore)
+                {
+                    cont++;
+                }
+                else if(matriceGioco[riga][colonna].occupato)
+                {
+                    ok = false;
+                }
+                else
+                {
+                    cella = matriceGioco[riga][colonna];
+                }
+            }
+            if(cont>1 && ok && cella!= null)
+            {
+                cella.scrivi("o");
+                return;
+            }
+        }
+
+        int cont = 0;
+        boolean ok = true;
+        Cella cella = null;
+        for(int pos=0; pos<3;pos++)
+        {
+            if(matriceGioco[pos][pos].getPlayer()==giocatore)
+            {
+                cont++;
+            }
+            else if(matriceGioco[pos][pos].occupato)
+            {
+                ok = false;
+            }
+            else
+            {
+                cella = matriceGioco[pos][pos];
+            }
+        }
+        if(cont>1 && ok && cella!= null)
+        {
+            cella.scrivi("o");
+            return;
+        }
+
+        cont = 0;
+        ok = true;
+        cella = null;
+        for(int pos=0; pos<3;pos++)
+        {
+            if(matriceGioco[pos][2-pos].getPlayer()==giocatore)
+            {
+                cont++;
+            }
+            else if(matriceGioco[pos][2-pos].occupato)
+            {
+                ok = false;
+            }
+            else
+            {
+                cella = matriceGioco[pos][2-pos];
+            }
+        }
+        if(cont>1 && ok && cella!= null)
+        {
+            cella.scrivi("o");
+            return;
+        }
+    }
+
+    public void botClickIntelligente()
+    {
+        if(!matriceGioco[1][1].occupato) {
+            matriceGioco[1][1].scrivi("o");
+            return;
+        }
+        int cont00 = 0;
+        int cont22 = 0;
+        int cont20 = 0;
+        int cont02 = 0;
+
+        if(!matriceGioco[0][0].occupato)
+        {
+            cont00=contatore(0,0,0);
+        }
+        if(!matriceGioco[2][2].occupato)
+        {
+            cont22=contatore(2,2,0);
+        }
+        if(!matriceGioco[2][0].occupato)
+        {
+            cont20=contatore(2,0,2);
+        }
+        if(!matriceGioco[0][2].occupato)
+        {
+            cont02=contatore(0,2,2);
+        }
+        int max = 0;
+        String posizione = "";
+        //scegliere random se ci sono più possibilità di pari interesse
+        if(cont00>max)
+        {
+            max=cont00;
+            posizione = "cont00";
+        }
+        if(cont22>max)
+        {
+            max=cont22;
+            posizione = "cont22";
+        }
+        if(cont20>max)
+        {
+            max=cont20;
+            posizione = "cont20";
+        }
+        if(cont02>max)
+        {
+            max=cont02;
+            posizione = "cont02";
+
+        }
+        switch (posizione){
+            case "cont00":{
+                matriceGioco[0][0].scrivi("o");
+                return;
+            }
+            case "cont22":{
+                matriceGioco[2][2].scrivi("o");
+                return;
+            }
+            case "cont20":{
+                matriceGioco[2][0].scrivi("o");
+                return;
+            }
+            case "cont02":{
+                matriceGioco[0][2].scrivi("o");
+                return;
+            }
+        }
+        botClickFacile();
+    }
+
+    public int contatore(int n1, int n2, int diag)
+    {
+        int cont = 0;
+        for(int i=0; i<3; i++)
+        {
+            if(matriceGioco[n1][i].getPlayer()=="x")
+            {
+                cont++;
+            }
+            if(diag!=0)
+            {
+                if(matriceGioco[i][diag-i].getPlayer()=="x")
                 {
                     cont++;
                 }
             }
-            if(cont>1)
+            else
+            {
+                if(matriceGioco[i][i].getPlayer()=="x")
+                {
+                    cont++;
+                }
+            }
+            if(matriceGioco[i][n2].getPlayer()=="x")
+            {
+                cont++;
+            }
+        }
+        return cont;
+    }
+
+    public boolean giocatoreStaVincendo(String giocatore)
+    {
+        for(int riga=0; riga<3; riga++)
+        {
+            int cont = 0;
+            boolean ok = true;
+            for(int colonna=0; colonna<3; colonna++)
+            {
+                if(matriceGioco[riga][colonna].getPlayer()==giocatore)
+                {
+                    cont++;
+                }
+                else if(matriceGioco[riga][colonna].occupato)
+                {
+                    ok = false;
+                }
+            }
+            if(cont>1 && ok)
             {
                 return true;
             }
@@ -154,41 +415,56 @@ public class Gioco{
         for(int colonna=0; colonna<3; colonna++)
         {
             int cont = 0;
+            boolean ok = true;
             for(int riga=0; riga<3; riga++)
             {
-                if(matriceGioco[riga][colonna].getPlayer()=="x")
+                if(matriceGioco[riga][colonna].getPlayer()==giocatore)
                 {
                     cont++;
                 }
+                else if(matriceGioco[riga][colonna].occupato)
+                {
+                    ok = false;
+                }
             }
-            if(cont>1)
+            if(cont>1 && ok)
             {
                 return true;
             }
         }
 
         int cont = 0;
+        boolean ok = true;
         for(int pos=0; pos<3;pos++)
         {
-            if(matriceGioco[pos][pos].getPlayer()=="x")
+            if(matriceGioco[pos][pos].getPlayer()==giocatore)
             {
                 cont++;
             }
+            else if(matriceGioco[pos][pos].occupato)
+            {
+                ok = false;
+            }
         }
-        if(cont>1)
+        if(cont>1 && ok)
         {
             return true;
         }
 
         cont = 0;
+        ok = true;
         for(int pos=0; pos<3;pos++)
         {
-            if(matriceGioco[pos][2-pos].getPlayer()=="x")
+            if(matriceGioco[pos][2-pos].getPlayer()==giocatore)
             {
                 cont++;
             }
+            else if(matriceGioco[pos][2-pos].occupato)
+            {
+                ok = false;
+            }
         }
-        if(cont>1)
+        if(cont>1 && ok)
         {
             return true;
         }
@@ -200,11 +476,13 @@ public class Gioco{
     {
         int cont;
         Cella cella = null;
+        boolean ok = true;
 
         for(int riga=0; riga<3; riga++)
         {
             cont = 0;
             cella = null;
+            ok = true;
             for(int colonna=0; colonna<3; colonna++)
             {
                 if(matriceGioco[riga][colonna].getPlayer()=="x")
@@ -213,14 +491,14 @@ public class Gioco{
                 }
                 else if(matriceGioco[riga][colonna].getPlayer()=="o")
                 {
-
+                    ok = false;
                 }
                 else
                 {
                     cella = matriceGioco[riga][colonna];
                 }
             }
-            if(cont==2)
+            if(cont==2 && ok)
             {
                 return cella;
             }
@@ -230,6 +508,7 @@ public class Gioco{
         {
             cont = 0;
             cella = null;
+            ok = true;
             for(int riga=0; riga<3; riga++)
             {
                 if(matriceGioco[riga][colonna].getPlayer()=="x")
@@ -238,14 +517,14 @@ public class Gioco{
                 }
                 else if(matriceGioco[riga][colonna].getPlayer()=="o")
                 {
-
+                    ok = false;
                 }
                 else
                 {
                     cella = matriceGioco[riga][colonna];
                 }
             }
-            if(cont==2)
+            if(cont==2 && ok)
             {
                 return cella;
             }
@@ -253,6 +532,7 @@ public class Gioco{
 
         cont = 0;
         cella = null;
+        ok = true;
         for(int pos=0; pos<3;pos++)
         {
             if(matriceGioco[pos][pos].getPlayer()=="x")
@@ -261,20 +541,21 @@ public class Gioco{
             }
             else if(matriceGioco[pos][pos].getPlayer()=="o")
             {
-
+                ok = false;
             }
             else
             {
                 cella = matriceGioco[pos][pos];
             }
         }
-        if(cont==2)
+        if(cont==2 && ok)
         {
             return cella;
         }
 
         cont = 0;
         cella = null;
+        ok = true;
         for(int pos=0; pos<3;pos++)
         {
             if(matriceGioco[pos][2-pos].getPlayer()=="x")
@@ -283,14 +564,14 @@ public class Gioco{
             }
             else if(matriceGioco[pos][2-pos].getPlayer()=="o")
             {
-
+                ok = false;
             }
             else
             {
                 cella = matriceGioco[pos][2-pos];
             }
         }
-        if(cont==2)
+        if(cont==2 && ok)
         {
             return cella;
         }
