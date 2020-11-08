@@ -144,7 +144,12 @@ public class Gioco{
 
     public boolean partitaFinita()
     {
-        if(pareggio() || controlloVittoria("x") || controlloVittoria("o"))
+        if(pareggio())
+        {
+            pareggio[difficolta]--;
+            return true;
+        }
+        if(controlloVittoria("x") || controlloVittoria("o"))
         {
             return true;
         }
