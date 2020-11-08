@@ -23,7 +23,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_azzeraPunti" />
+        app:layout_constraintStart_toEndOf="@+id/btn_azzeraStatistiche" />
 
     <Button
         android:id="@+id/btn_02"
@@ -303,48 +303,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_tictactoebackgroundtable" />
 
-    <TextView
-        android:id="@+id/textViewX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="30dp"
-        android:fontFamily="@font/comfortaa_light"
-        android:text="Giocatore X: 0"
-        android:textAlignment="textEnd"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewO"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/comfortaa_light"
-        android:scrollbarThumbHorizontal="@android:color/black"
-        android:scrollbarThumbVertical="@android:color/black"
-        android:text="Giocatore O: 0"
-        android:textAlignment="textEnd"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewX"
-        app:layout_constraintTop_toBottomOf="@+id/textViewX" />
-
     <Button
         android:id="@+id/btn_back"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_azzeraPunti"
+        android:id="@+id/btn_azzeraStatistiche"
         style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -352,7 +323,7 @@
         android:layout_marginBottom="20dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/comfortaa_light"
-        android:text="AZZERA PUNTI"
+        android:text="AZZERA STATS"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_nuovaPartita"
@@ -363,7 +334,7 @@
         style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/comfortaa_light"
         android:text="FACILE"
@@ -372,5 +343,56 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_stats"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="@android:color/transparent"
+        android:fontFamily="@font/comfortaa_light"
+        android:text="STATS"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/layout_stats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#8900FF"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView_stats"
+            android:layout_width="426dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="bottom|center_vertical"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/statsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:hapticFeedbackEnabled="false"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="25sp" />
+
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

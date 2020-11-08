@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MultiplayerActivity extends AppCompatActivity {
@@ -16,12 +17,14 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     View.OnClickListener clickBottoneTris;
     Button btnNuovaPartita;
-    Button btnAzzeraPunti;
+    Button btnAzzeraStats;
     TextView tabellaInfo;
-    TextView textViewX;
-    TextView textViewO;
     View view;
     Button btnMenu;
+    Button btnStats;
+    RelativeLayout statsLayout;
+    TextView textViewStats;
+    TextView statsTitle;
 
     Button[][] matriceBottoni;
     Cerchio[][] matriceCerchi;
@@ -75,12 +78,15 @@ public class MultiplayerActivity extends AppCompatActivity {
 
 
         tabellaInfo = findViewById(R.id.txt_Info);
-        textViewO = findViewById(R.id.textViewO);
-        textViewX = findViewById(R.id.textViewX);
+        btnStats = findViewById(R.id.btn_stats);
+        statsLayout = findViewById(R.id.layout_stats);
+        textViewStats = findViewById(R.id.textView_stats);
+        statsLayout.setVisibility(View.INVISIBLE);
         btnMenu = findViewById(R.id.btn_back);
         view = findViewById(R.id.view);
         btnNuovaPartita = findViewById(R.id.btn_nuovaPartita);
-        btnAzzeraPunti = findViewById(R.id.btn_azzeraPunti);
+        btnAzzeraStats = findViewById(R.id.btn_azzeraStatistiche);
+        statsTitle = findViewById(R.id.statsTitle);
 
 
 
@@ -97,13 +103,28 @@ public class MultiplayerActivity extends AppCompatActivity {
             }
         });
 
-        btnAzzeraPunti.setOnClickListener(new View.OnClickListener() {
+        btnAzzeraStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gioco.vittorieO = 0;
-                gioco.vittorieX = 0;
-                textViewX.setText("Giocatore X: "+0);
-                textViewO.setText("Giocatore O: "+0);
+                gioco.azzeraStats();
+                btnAzzeraStats.setEnabled(false);
+            }
+        });
+
+        btnStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textViewStats.setText("");
+                statsLayout.setVisibility(View.VISIBLE);
+                statsTitle.setText("\nSTATISTICHE");
+                textViewStats.setText(gioco.ottieniStatsMultyPlayer());
+            }
+        });
+
+        statsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statsLayout.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -197,7 +218,7 @@ public class MultiplayerActivity extends AppCompatActivity {
 
 
 
-        gioco = new Gioco(matriceBottoni, matriceCerchi, matriceCroci,rateo);
+        gioco = new Gioco(matriceBottoni, matriceCerchi, matriceCroci,rateo, 0);
 
         impostoAzioneBottoniTris();
         aggiornaTabella();
@@ -261,7 +282,13 @@ public class MultiplayerActivity extends AppCompatActivity {
                 tabellaInfo.setText("E' il turno del giocatore: O");
             }
         }
-        textViewX.setText("Giocatore X: "+gioco.vittorieX);
-        textViewO.setText("Giocatore O: "+gioco.vittorieO);
+        if(gioco.statsVuote())
+        {
+            btnAzzeraStats.setEnabled(false);
+        }
+        else
+        {
+            btnAzzeraStats.setEnabled(true);
+        }
     }
 }

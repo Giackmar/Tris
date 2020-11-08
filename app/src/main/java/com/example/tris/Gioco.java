@@ -2,30 +2,26 @@ package com.example.tris;
 
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class Gioco{
 
     private Cella[][] matriceGioco;
+    private int difficolta;
     Boolean giocatore;
     Boolean inGioco;
-    int vittorieX;
-    int vittorieO;
-    int pareggio;
+    int[] vittorieX;
+    int[] vittorieO;
+    int[] pareggio;
 
-    public Gioco(Button[][] matriceBottoni, Cerchio[][] matriceCerchi, Croce[][] matriceCroci, double rateo)
+    public Gioco(Button[][] matriceBottoni, Cerchio[][] matriceCerchi, Croce[][] matriceCroci, double rateo, int difficolta)
     {
+        this.difficolta = difficolta;
         matriceGioco = new Cella[3][3];
         giocatore = true;
         inGioco = true;
-        vittorieX=0;
-        vittorieO=0;
+        vittorieX = new int[4];
+        vittorieO = new int[4];
+        pareggio = new int[4];
 
         float dimensione = (int)(rateo*104);
 
@@ -73,7 +69,7 @@ public class Gioco{
         if(finita)
         {
             inGioco = false;
-            pareggio++;
+            pareggio[difficolta]++;
         }
         return finita;
     }
@@ -85,11 +81,11 @@ public class Gioco{
         {
             if(s=="x")
             {
-                vittorieX++;
+                vittorieX[difficolta]++;
             }
             else
             {
-                vittorieO++;
+                vittorieO[difficolta]++;
             }
             inGioco = false;
         }
@@ -181,6 +177,7 @@ public class Gioco{
 
     public void clickCellaBot(Button bottoneCliccato, int difficolta)
     {
+        this.difficolta = difficolta;
         for(int linea=0; linea<3; linea++)
         {
             for(int colonna=0; colonna<3; colonna++)
@@ -747,5 +744,62 @@ public class Gioco{
             return cella;
         }
         return null;
+    }
+
+    public String ottieniStats()
+    {
+        String stats = "\n\n\n\n\n\n";
+        stats+="  MODALITA FACILE:\n";
+        stats+="    Vinte:  "+vittorieX[1]+"\n";
+        stats+="    Perse:  "+vittorieO[1]+"\n";
+        stats+="    Pareggi:  "+pareggio[1]+"\n\n";
+        stats+="  MODALITA DIFFICILE:\n";
+        stats+="    Vinte:  "+vittorieX[2]+"\n";
+        stats+="    Perse:  "+vittorieO[2]+"\n";
+        stats+="    Pareggi:  "+pareggio[2]+"\n\n";
+        stats+="  MODALITA IMPOSSIBILE:\n";
+        stats+="    Vinte:  "+vittorieX[3]+"\n";
+        stats+="    Perse:  "+vittorieO[3]+"\n";
+        stats+="    Pareggi:  "+pareggio[3];
+        return stats;
+    }
+
+    public String ottieniStatsMultyPlayer()
+    {
+        String stats = "\n\n\n\n\n\n";
+        stats+="    Vittorie x:  "+vittorieX[0]+"\n";
+        stats+="    Vittorie o:  "+vittorieO[0]+"\n";
+        stats+="    Pareggi:  "+pareggio[0];
+        return stats;
+    }
+
+    public void azzeraStats()
+    {
+        vittorieX = new int[4];
+        vittorieO = new int[4];
+        pareggio = new int[4];
+    }
+
+    public boolean statsVuote()
+    {
+        boolean vuote = true;
+        for (int stat:vittorieX) {
+            if(stat != 0)
+            {
+                vuote = false;
+            }
+        }
+        for (int stat:vittorieO) {
+            if(stat != 0)
+            {
+                vuote = false;
+            }
+        }
+        for (int stat:pareggio) {
+            if (stat != 0) {
+                vuote = false;
+            }
+        }
+        return vuote;
     }
 }

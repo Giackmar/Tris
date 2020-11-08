@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Singleplayer extends AppCompatActivity {
@@ -16,12 +17,14 @@ public class Singleplayer extends AppCompatActivity {
     View.OnClickListener clickBottoneTris;
     Button btnNuovaPartita;
     Button btnDifficolta;
-    Button btnAzzeraPunti;
+    Button btnAzzeraStats;
     TextView tabellaInfo;
-    TextView textViewX;
-    TextView textViewO;
     View view;
     Button btnMenu;
+    Button btnStats;
+    RelativeLayout statsLayout;
+    TextView textViewStats;
+    TextView statsTitle;
     int difficolta = 1;
 
     Button[][] matriceBottoni;
@@ -73,18 +76,23 @@ public class Singleplayer extends AppCompatActivity {
         setContentView(R.layout.activity_gioco);
 
 
+
         tabellaInfo = findViewById(R.id.txt_Info);
 
 
-        textViewO = findViewById(R.id.textViewO);
-        textViewX = findViewById(R.id.textViewX);
+        btnStats = findViewById(R.id.btn_stats);
+        statsLayout = findViewById(R.id.layout_stats);
+        textViewStats = findViewById(R.id.textView_stats);
+        statsTitle = findViewById(R.id.statsTitle);
+
+        statsLayout.setVisibility(View.INVISIBLE);
 
         btnMenu = findViewById(R.id.btn_back);
 
         view = findViewById(R.id.view);
 
         btnNuovaPartita = findViewById(R.id.btn_nuovaPartita);
-        btnAzzeraPunti = findViewById(R.id.btn_azzeraPunti);
+        btnAzzeraStats = findViewById(R.id.btn_azzeraStatistiche);
 
         btnDifficolta = findViewById(R.id.btn_difficolta);
 
@@ -103,13 +111,28 @@ public class Singleplayer extends AppCompatActivity {
             }
         });
 
-        btnAzzeraPunti.setOnClickListener(new View.OnClickListener() {
+        btnAzzeraStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gioco.vittorieO = 0;
-                gioco.vittorieX = 0;
-                textViewX.setText("Vittorie:  " + 0);
-                textViewO.setText("Sconfitte: " + 0);
+                gioco.azzeraStats();
+                btnAzzeraStats.setEnabled(false);
+            }
+        });
+
+        btnStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textViewStats.setText("");
+                statsLayout.setVisibility(View.VISIBLE);
+                textViewStats.setText(gioco.ottieniStats());
+                statsTitle.setText("\nSTATISTICHE");
+            }
+        });
+
+        statsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statsLayout.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -220,7 +243,7 @@ public class Singleplayer extends AppCompatActivity {
         matriceCroci[2][2] = croce22;
 
 
-        gioco = new Gioco(matriceBottoni, matriceCerchi, matriceCroci, rateo);
+        gioco = new Gioco(matriceBottoni, matriceCerchi, matriceCroci, rateo, difficolta);
 
         impostoAzioneBottoniTris();
         aggiornaTabella();
@@ -268,7 +291,13 @@ public class Singleplayer extends AppCompatActivity {
                 tabellaInfo.setText("Attendi...");
             }
         }
-        textViewX.setText("Vittorie:  " + gioco.vittorieX);
-        textViewO.setText("Sconfitte: " + gioco.vittorieO);
+        if(gioco.statsVuote())
+        {
+            btnAzzeraStats.setEnabled(false);
+        }
+        else
+        {
+            btnAzzeraStats.setEnabled(true);
+        }
     }
 }
