@@ -60,7 +60,7 @@ public class Singleplayer extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         startActivity(new Intent(Singleplayer.this, StartActivity.class));
         finish();
     }
@@ -74,7 +74,6 @@ public class Singleplayer extends AppCompatActivity {
 
 
         tabellaInfo = findViewById(R.id.txt_Info);
-
 
 
         textViewO = findViewById(R.id.textViewO);
@@ -92,14 +91,15 @@ public class Singleplayer extends AppCompatActivity {
         btnDifficolta.setVisibility(View.VISIBLE);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        final float rateo = metrics.xdpi/254;
+        final float rateo = metrics.xdpi / 254;
 
 
         btnNuovaPartita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gioco.resetta();
+                gioco.resettaGioco();
                 aggiornaTabella();
+                btnDifficolta.setEnabled(true);
             }
         });
 
@@ -108,22 +108,24 @@ public class Singleplayer extends AppCompatActivity {
             public void onClick(View v) {
                 gioco.vittorieO = 0;
                 gioco.vittorieX = 0;
-                textViewX.setText("Vittorie:  "+0);
-                textViewO.setText("Sconfitte: "+0);
+                textViewX.setText("Vittorie:  " + 0);
+                textViewO.setText("Sconfitte: " + 0);
             }
         });
 
         btnDifficolta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(difficolta == 1)
-                {
+                if (difficolta == 1) {
                     difficolta++;
                     btnDifficolta.setText("DIFFICILE");
                 }
-                else if(difficolta == 2)
-                {
-                    difficolta--;
+                else if (difficolta == 2) {
+                    difficolta++;
+                    btnDifficolta.setText("IMPOSSIBILE");
+                }
+                else {
+                    difficolta = 1;
                     btnDifficolta.setText("FACILE");
                 }
             }
@@ -141,10 +143,10 @@ public class Singleplayer extends AppCompatActivity {
         clickBottoneTris = new View.OnClickListener() {
             @Override
             public void onClick(View btn) {
-                if(gioco.inGioco)
-                {
-                    gioco.clickCellaBot(dammiBottone(btn.getId()),difficolta);
+                if (gioco.inGioco) {
+                    gioco.clickCellaBot(dammiBottone(btn.getId()), difficolta);
                     aggiornaTabella();
+                    btnDifficolta.setEnabled(false);
                 }
             }
 
@@ -218,22 +220,17 @@ public class Singleplayer extends AppCompatActivity {
         matriceCroci[2][2] = croce22;
 
 
+        gioco = new Gioco(matriceBottoni, matriceCerchi, matriceCroci, rateo);
 
-
-        gioco = new Gioco(matriceBottoni, matriceCerchi, matriceCroci,rateo);
-
-        ascolto();
+        impostoAzioneBottoniTris();
         aggiornaTabella();
     }
 
 
-
-
-    void ascolto()
-    {
-        for (Button[] btnMatrice: matriceBottoni
+    void impostoAzioneBottoniTris() {
+        for (Button[] btnMatrice : matriceBottoni
         ) {
-            for (Button btn:btnMatrice
+            for (Button btn : btnMatrice
             ) {
                 btn.setText("");
                 btn.setOnClickListener(clickBottoneTris);
@@ -241,14 +238,12 @@ public class Singleplayer extends AppCompatActivity {
         }
     }
 
-    Button dammiBottone(int id)
-    {
-        for (Button[] listaBtn:matriceBottoni
+    Button dammiBottone(int id) {
+        for (Button[] listaBtn : matriceBottoni
         ) {
-            for (Button btn:listaBtn
+            for (Button btn : listaBtn
             ) {
-                if(btn.getId()==id)
-                {
+                if (btn.getId() == id) {
                     return btn;
                 }
             }
@@ -256,40 +251,24 @@ public class Singleplayer extends AppCompatActivity {
         return null;
     }
 
-    void aggiornaTabella()
-    {
-        if(gioco.vincitore("x"))
-        {
-            tabellaInfo.setText("Hai vinto");
+    void aggiornaTabella() {
+        if (gioco.haVinto("x")) {
+            tabellaInfo.setText("Hai vinto!");
 
-        }
-        else if(gioco.vincitore("o"))
-        {
+        } else if (gioco.haVinto("o")) {
             tabellaInfo.setText("Hai perso");
 
-        }
-        else if(gioco.finePartita())
-        {
+        } else if (gioco.pareggio()) {
             tabellaInfo.setText("Pareggio");
 
-        }
-        else
-        {
-            if(gioco.giocatore)
-            {
+        } else {
+            if (gioco.giocatore) {
                 tabellaInfo.setText("E' il tuo turno");
-            }
-            else
-            {
+            } else {
                 tabellaInfo.setText("Attendi...");
             }
         }
-        textViewX.setText("Vittorie:  "+gioco.vittorieX);
-        textViewO.setText("Sconfitte: "+gioco.vittorieO);
-
-
+        textViewX.setText("Vittorie:  " + gioco.vittorieX);
+        textViewO.setText("Sconfitte: " + gioco.vittorieO);
     }
-
-
-
 }

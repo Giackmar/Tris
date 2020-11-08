@@ -92,7 +92,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         btnNuovaPartita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gioco.resetta();
+                gioco.resettaGioco();
                 aggiornaTabella();
             }
         });
@@ -199,14 +199,14 @@ public class MultiplayerActivity extends AppCompatActivity {
 
         gioco = new Gioco(matriceBottoni, matriceCerchi, matriceCroci,rateo);
 
-        ascolto();
+        impostoAzioneBottoniTris();
         aggiornaTabella();
     }
 
 
 
 
-    void ascolto()
+    void impostoAzioneBottoniTris()
     {
         for (Button[] btnMatrice: matriceBottoni
         ) {
@@ -235,17 +235,17 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     void aggiornaTabella()
     {
-        if(gioco.vincitore("x"))
+        if(gioco.haVinto("x"))
         {
             tabellaInfo.setText("Ha vinto il giocatore: X");
 
         }
-        else if(gioco.vincitore("o"))
+        else if(gioco.haVinto("o"))
         {
             tabellaInfo.setText("Ha vinto il giocatore: O");
 
         }
-        else if(gioco.finePartita())
+        else if(gioco.pareggio())
         {
             tabellaInfo.setText("Pareggio");
 
@@ -264,7 +264,4 @@ public class MultiplayerActivity extends AppCompatActivity {
         textViewX.setText("Giocatore X: "+gioco.vittorieX);
         textViewO.setText("Giocatore O: "+gioco.vittorieO);
     }
-
-
-
 }

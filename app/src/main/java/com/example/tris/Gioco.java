@@ -2,7 +2,13 @@ package com.example.tris;
 
 import android.widget.Button;
 
-import java.util.Random;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class Gioco{
 
@@ -11,6 +17,7 @@ public class Gioco{
     Boolean inGioco;
     int vittorieX;
     int vittorieO;
+    int pareggio;
 
     public Gioco(Button[][] matriceBottoni, Cerchio[][] matriceCerchi, Croce[][] matriceCroci, double rateo)
     {
@@ -34,10 +41,10 @@ public class Gioco{
                 matriceGioco[riga][colonna] = new Cella(bottone,cerchio,croce);
             }
         }
-        resetta();
+        resettaGioco();
     }
 
-    void resetta()
+    void resettaGioco()
     {
         for (Cella[] subMatriceGioco:matriceGioco
              ) {
@@ -49,6 +56,105 @@ public class Gioco{
         inGioco = true;
         giocatore = true;
     }
+
+    public boolean pareggio()
+    {
+        boolean finita = true;
+        for(int riga=0; riga<3; riga++)
+        {
+            for(int colonna=0; colonna<3; colonna++)
+            {
+                if(matriceGioco[riga][colonna].getPlayer()=="")
+                {
+                    finita = false;
+                }
+            }
+        }
+        if(finita)
+        {
+            inGioco = false;
+            pareggio++;
+        }
+        return finita;
+    }
+
+    public boolean haVinto(String s)
+    {
+        boolean vittoria = controlloVittoria(s);
+        if(vittoria)
+        {
+            if(s=="x")
+            {
+                vittorieX++;
+            }
+            else
+            {
+                vittorieO++;
+            }
+            inGioco = false;
+        }
+        return vittoria;
+    }
+
+    public boolean controlloVittoria(String s)
+    {
+        boolean vittoria = false;
+        int cont = 0;
+        for (int riga = 0; riga < 3; riga++) {
+            cont = 0;
+            for (int colonna = 0; colonna < 3; colonna++) {
+                if (matriceGioco[riga][colonna].getPlayer() == s) {
+                    cont++;
+                }
+            }
+            if (cont == 3) {
+                vittoria=true;
+            }
+        }
+
+        for (int colonna = 0; colonna < 3; colonna++) {
+            cont = 0;
+            for (int riga = 0; riga < 3; riga++) {
+                if (matriceGioco[riga][colonna].getPlayer() == s) {
+                    cont++;
+                }
+            }
+            if (cont == 3) {
+                vittoria=true;
+            }
+        }
+
+        cont = 0;
+        for (int pos = 0; pos < 3; pos++) {
+            if (matriceGioco[pos][pos].getPlayer() == s) {
+                cont++;
+            }
+        }
+        if (cont == 3) {
+            vittoria=true;
+        }
+
+        cont = 0;
+        for (int pos = 0; pos < 3; pos++) {
+            if (matriceGioco[pos][2 - pos].getPlayer() == s) {
+                cont++;
+            }
+            if (cont == 3) {
+                vittoria=true;
+            }
+        }
+        return vittoria;
+    }
+
+    public boolean partitaFinita()
+    {
+        if(pareggio() || controlloVittoria("x") || controlloVittoria("o"))
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     public void clickCella(Button bottoneCliccato)
     {
@@ -82,13 +188,18 @@ public class Gioco{
                 if(matriceGioco[linea][colonna].getButton()==bottoneCliccato && !matriceGioco[linea][colonna].occupato)
                 {
                     matriceGioco[linea][colonna].scrivi("x");
-                    if(stopClick())return;
+                    if(partitaFinita())return;
                     if(difficolta==1)
                     {
                         botClickFacile();
-                    }else
+                    }
+                    else if(difficolta==2)
                     {
                         botClickDifficile();
+                    }
+                    else
+                    {
+                        botClickImpossibile();
                     }
                 }
             }
@@ -114,6 +225,30 @@ public class Gioco{
     }
 
     public void botClickDifficile()
+    {
+        if(giocatoreStaVincendo("o"))
+        {
+            posizionaPerVittoria("o");
+        }
+        else if(giocatoreStaVincendo("x"))
+        {
+            Cella cella = bloccaAvversario();
+            if(cella!=null)
+            {
+                cella.scrivi("o");
+            }
+            else
+            {
+                botClickIntelligente();
+            }
+        }
+        else
+        {
+            botClickIntelligente();
+        }
+    }
+
+    public void botClickImpossibile()
     {
         if(giocatoreStaVincendo("o"))
         {
@@ -314,30 +449,66 @@ public class Gioco{
             cont02=contatore(0,2,2);
         }
         int max = 0;
-        String posizione = "";
-        //scegliere random se ci sono più possibilità di pari interesse
+        String[] posizioni = new String[4];
+        int cont = 0;
         if(cont00>max)
         {
             max=cont00;
-            posizione = "cont00";
+            posizioni[cont] = "cont00";
+            cont++;
+        }
+        else if(cont00==max)
+        {
+            posizioni[cont] = "cont00";
+            cont++;
         }
         if(cont22>max)
         {
             max=cont22;
-            posizione = "cont22";
+            cont=0;
+            posizioni = new String[4];
+            posizioni[cont] = "cont22";
+            cont++;
+        }
+        else if(cont22==max)
+        {
+            posizioni[cont] = "cont22";
+            cont++;
         }
         if(cont20>max)
         {
             max=cont20;
-            posizione = "cont20";
+            cont=0;
+            posizioni = new String[4];
+            posizioni[cont] = "cont20";
+            cont++;
+        }
+        else if(cont20==max)
+        {
+            posizioni[cont] = "cont20";
+            cont++;
         }
         if(cont02>max)
         {
             max=cont02;
-            posizione = "cont02";
+            cont=0;
+            posizioni = new String[4];
+            posizioni[cont] = "cont02";
+            cont++;
 
         }
-        switch (posizione){
+        else if(cont02==max)
+        {
+            posizioni[cont] = "cont02";
+            cont++;
+        }
+        int pos = (int)(Math.random()*cont);
+        if(max==0)
+        {
+            botClickFacile();
+            return;
+        }
+        switch (posizioni[pos]){
             case "cont00":{
                 matriceGioco[0][0].scrivi("o");
                 return;
@@ -577,102 +748,4 @@ public class Gioco{
         }
         return null;
     }
-
-    public boolean finePartita()
-    {
-        boolean finita = true;
-        for(int linea=0; linea<3; linea++)
-        {
-            for(int colonna=0; colonna<3; colonna++)
-            {
-                if(matriceGioco[linea][colonna].getPlayer()=="")
-                {
-                    finita = false;
-                }
-            }
-        }
-        if(finita)
-        {
-            inGioco = false;
-        }
-        return finita;
-    }
-
-    public boolean vincitore(String s)
-    {
-        boolean vittoria = controlloVittoria(s);
-        if(vittoria)
-        {
-            if(s=="x")
-            {
-                vittorieX++;
-            }
-            else
-            {
-                vittorieO++;
-            }
-            inGioco = false;
-        }
-        return vittoria;
-    }
-
-    public boolean controlloVittoria(String s)
-    {
-        boolean vittoria = false;
-        int cont = 0;
-        for (int linea = 0; linea < 3; linea++) {
-            cont = 0;
-            for (int colonna = 0; colonna < 3; colonna++) {
-                if (matriceGioco[linea][colonna].getPlayer() == s) {
-                    cont++;
-                }
-            }
-            if (cont == 3) {
-                vittoria=true;
-            }
-        }
-
-        for (int linea = 0; linea < 3; linea++) {
-            cont = 0;
-            for (int colonna = 0; colonna < 3; colonna++) {
-                if (matriceGioco[colonna][linea].getPlayer() == s) {
-                    cont++;
-                }
-            }
-            if (cont == 3) {
-                vittoria=true;
-            }
-        }
-
-        cont = 0;
-        for (int linea = 0; linea < 3; linea++) {
-            if (matriceGioco[linea][linea].getPlayer() == s) {
-                cont++;
-            }
-        }
-        if (cont == 3) {
-            vittoria=true;
-        }
-
-        cont = 0;
-        for (int linea = 0; linea < 3; linea++) {
-            if (matriceGioco[linea][2 - linea].getPlayer() == s) {
-                cont++;
-            }
-            if (cont == 3) {
-                vittoria=true;
-            }
-        }
-        return vittoria;
-    }
-
-    public boolean stopClick()
-    {
-        if(finePartita() || controlloVittoria("x") || controlloVittoria("o"))
-        {
-            return true;
-        }
-        return false;
-    }
-
 }
