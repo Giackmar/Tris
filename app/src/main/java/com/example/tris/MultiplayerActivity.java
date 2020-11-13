@@ -72,10 +72,20 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(intent,0);
-        statsLayout.callOnClick();
+        if(statsLayout.getVisibility()==View.VISIBLE)
+        {
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_up);
+            statsLayout.setAnimation(animation);
+            animation.setDuration(350);
+            animation.start();
+            statsLayout.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent,0);
+        }
     }
 
     @Override
@@ -85,9 +95,8 @@ public class MultiplayerActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_gioco);
+
         findViewById(R.id.btn_difficolta).setVisibility(View.INVISIBLE);
-
-
         tabellaInfo = findViewById(R.id.txt_Info);
         imageView = findViewById(R.id.imageView);
         btnStats = findViewById(R.id.btn_stats);
@@ -157,7 +166,6 @@ public class MultiplayerActivity extends AppCompatActivity {
                 Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityIfNeeded(intent,0);
-                statsLayout.callOnClick();
             }
         });
 

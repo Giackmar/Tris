@@ -19,10 +19,9 @@ import android.widget.TextView;
 
 
 public class Singleplayer extends AppCompatActivity {
+
     Gioco gioco;
 
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
 
     View.OnClickListener clickBottoneTris;
     Button btnNuovaPartita;
@@ -75,10 +74,20 @@ public class Singleplayer extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Singleplayer.this, StartActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivityIfNeeded(intent,0);
-        statsLayout.callOnClick();
+        if(statsLayout.getVisibility()==View.VISIBLE)
+        {
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_up);
+            statsLayout.setAnimation(animation);
+            animation.setDuration(350);
+            animation.start();
+            statsLayout.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            Intent intent = new Intent(Singleplayer.this, StartActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivityIfNeeded(intent,0);
+        }
     }
 
     @Override
@@ -88,28 +97,20 @@ public class Singleplayer extends AppCompatActivity {
 
         setContentView(R.layout.activity_gioco);
 
-
         tabellaInfo = findViewById(R.id.txt_Info);
         imageView = findViewById(R.id.imageView);
-
-
         btnStats = findViewById(R.id.btn_stats);
         statsLayout = findViewById(R.id.layout_stats);
         textViewStats = findViewById(R.id.textView_stats);
         statsTitle = findViewById(R.id.statsTitle);
-
         statsLayout.setVisibility(View.INVISIBLE);
-
         btnMenu = findViewById(R.id.btn_back);
-
         view = findViewById(R.id.view);
-
         btnNuovaPartita = findViewById(R.id.btn_nuovaPartita);
         btnAzzeraStats = findViewById(R.id.btn_azzeraStatistiche);
-
         btnDifficolta = findViewById(R.id.btn_difficolta);
-
         btnDifficolta.setVisibility(View.VISIBLE);
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         final float rateo = metrics.xdpi / 254;
@@ -187,7 +188,6 @@ public class Singleplayer extends AppCompatActivity {
                 Intent intent = new Intent(Singleplayer.this, StartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityIfNeeded(intent,0);
-                statsLayout.callOnClick();
             }
         });
 
@@ -289,52 +289,7 @@ public class Singleplayer extends AppCompatActivity {
     }
 
 
-    void finePartitaGrafica(float val, int win)
-    {
 
-        if(win == 0)
-        {
-            tabellaInfo.setTypeface(Typeface.DEFAULT);
-            view.setBackground(getDrawable(R.drawable.background));
-            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
-            btnNuovaPartita.setTypeface(Typeface.DEFAULT);
-            animazioneTestoFinePartita(false);
-        }
-        else
-        {
-            tabellaInfo.setTypeface(Typeface.DEFAULT_BOLD);
-            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,30);
-            btnNuovaPartita.setTypeface(Typeface.DEFAULT_BOLD);
-            animazioneTestoFinePartita(true);
-            if(win==1)
-            {
-                view.setBackground(getDrawable(R.drawable.gradient_background_win));
-            }
-            else if(win==2)
-            {
-                view.setBackground(getDrawable(R.drawable.gradient_background_lose));
-            }
-            else if(win==3)
-            {
-                view.setBackground(getDrawable(R.drawable.background));
-            }
-        }
-        imageView.setAlpha(val);
-        for (Cerchio[] cerchi:matriceCerchi
-             ) {
-            for (Cerchio cerchio:cerchi
-            ) {
-                cerchio.setAlpha(val);
-            }
-        }
-        for (Croce[] croci:matriceCroci
-        ) {
-            for (Croce croce:croci
-            ) {
-                croce.setAlpha(val);
-            }
-        }
-    }
 
     void impostoAzioneBottoniTris() {
         for (Button[] btnMatrice : matriceBottoni
@@ -374,6 +329,53 @@ public class Singleplayer extends AppCompatActivity {
         else
         {
             btnNuovaPartita.setAnimation(null);
+        }
+    }
+
+    void finePartitaGrafica(float val, int win)
+    {
+
+        if(win == 0)
+        {
+            tabellaInfo.setTypeface(Typeface.DEFAULT);
+            view.setBackground(getDrawable(R.drawable.background));
+            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
+            btnNuovaPartita.setTypeface(Typeface.DEFAULT);
+            animazioneTestoFinePartita(false);
+        }
+        else
+        {
+            tabellaInfo.setTypeface(Typeface.DEFAULT_BOLD);
+            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,30);
+            btnNuovaPartita.setTypeface(Typeface.DEFAULT_BOLD);
+            animazioneTestoFinePartita(true);
+            if(win==1)
+            {
+                view.setBackground(getDrawable(R.drawable.gradient_background_win));
+            }
+            else if(win==2)
+            {
+                view.setBackground(getDrawable(R.drawable.gradient_background_lose));
+            }
+            else if(win==3)
+            {
+                view.setBackground(getDrawable(R.drawable.background));
+            }
+        }
+        imageView.setAlpha(val);
+        for (Cerchio[] cerchi:matriceCerchi
+        ) {
+            for (Cerchio cerchio:cerchi
+            ) {
+                cerchio.setAlpha(val);
+            }
+        }
+        for (Croce[] croci:matriceCroci
+        ) {
+            for (Croce croce:croci
+            ) {
+                croce.setAlpha(val);
+            }
         }
     }
 
