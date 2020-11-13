@@ -64,7 +64,6 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        //finish();
         Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityIfNeeded(intent,0);
@@ -132,7 +131,6 @@ public class MultiplayerActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish();
                 Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityIfNeeded(intent,0);
