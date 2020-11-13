@@ -69,7 +69,6 @@ public class Singleplayer extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //finish();
         Intent intent = new Intent(Singleplayer.this, StartActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityIfNeeded(intent,0);
@@ -82,7 +81,6 @@ public class Singleplayer extends AppCompatActivity {
 
         setContentView(R.layout.activity_gioco);
 
-        //caricaStats();
 
         tabellaInfo = findViewById(R.id.txt_Info);
 
@@ -162,7 +160,6 @@ public class Singleplayer extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish();
                 Intent intent = new Intent(Singleplayer.this, StartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityIfNeeded(intent,0);

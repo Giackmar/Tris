@@ -56,7 +56,6 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //finish();
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
