@@ -1,13 +1,18 @@
 package com.example.tris;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +35,7 @@ public class Singleplayer extends AppCompatActivity {
     RelativeLayout statsLayout;
     TextView textViewStats;
     TextView statsTitle;
+    View imageView;
     int difficolta = 1;
 
     Button[][] matriceBottoni;
@@ -72,6 +78,7 @@ public class Singleplayer extends AppCompatActivity {
         Intent intent = new Intent(Singleplayer.this, StartActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityIfNeeded(intent,0);
+        statsLayout.callOnClick();
     }
 
     @Override
@@ -83,6 +90,7 @@ public class Singleplayer extends AppCompatActivity {
 
 
         tabellaInfo = findViewById(R.id.txt_Info);
+        imageView = findViewById(R.id.imageView);
 
 
         btnStats = findViewById(R.id.btn_stats);
@@ -107,14 +115,18 @@ public class Singleplayer extends AppCompatActivity {
         final float rateo = metrics.xdpi / 254;
 
 
+
+
         btnNuovaPartita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gioco.resettaGioco();
                 aggiornaTabella();
                 btnDifficolta.setEnabled(true);
+                finePartitaGrafica(1,0);
             }
         });
+
 
         btnAzzeraStats.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +134,8 @@ public class Singleplayer extends AppCompatActivity {
                 gioco.azzeraStats();
                 btnAzzeraStats.setEnabled(false);
                 impostaStats();
+                statsLayout.setVisibility(View.VISIBLE);
+                statsLayout.callOnClick();
             }
         });
 
@@ -129,12 +143,22 @@ public class Singleplayer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 impostaStats();
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_up);
+                statsLayout.setAnimation(animation);
+                statsLayout.setVisibility(View.VISIBLE);
+                animation.setDuration(200);
+                animation.start();
+                statsLayout.setVisibility(View.VISIBLE);
             }
         });
 
         statsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_up);
+                statsLayout.setAnimation(animation);
+                animation.setDuration(350);
+                animation.start();
                 statsLayout.setVisibility(View.INVISIBLE);
             }
         });
@@ -163,8 +187,12 @@ public class Singleplayer extends AppCompatActivity {
                 Intent intent = new Intent(Singleplayer.this, StartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityIfNeeded(intent,0);
+                statsLayout.callOnClick();
             }
         });
+
+
+
 
 
         clickBottoneTris = new View.OnClickListener() {
@@ -256,11 +284,57 @@ public class Singleplayer extends AppCompatActivity {
     void impostaStats()
     {
         textViewStats.setText("");
-        statsLayout.setVisibility(View.VISIBLE);
         textViewStats.setText(gioco.ottieniStats());
         statsTitle.setText("\nSTATISTICHE");
     }
 
+
+    void finePartitaGrafica(float val, int win)
+    {
+
+        if(win == 0)
+        {
+            tabellaInfo.setTypeface(Typeface.DEFAULT);
+            view.setBackground(getDrawable(R.drawable.background));
+            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+            btnNuovaPartita.setTypeface(Typeface.DEFAULT);
+            animazioneTestoFinePartita(false);
+        }
+        else
+        {
+            tabellaInfo.setTypeface(Typeface.DEFAULT_BOLD);
+            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,30);
+            btnNuovaPartita.setTypeface(Typeface.DEFAULT_BOLD);
+            animazioneTestoFinePartita(true);
+            if(win==1)
+            {
+                view.setBackground(getDrawable(R.drawable.gradient_background_win));
+            }
+            else if(win==2)
+            {
+                view.setBackground(getDrawable(R.drawable.gradient_background_lose));
+            }
+            else if(win==3)
+            {
+                view.setBackground(getDrawable(R.drawable.background));
+            }
+        }
+        imageView.setAlpha(val);
+        for (Cerchio[] cerchi:matriceCerchi
+             ) {
+            for (Cerchio cerchio:cerchi
+            ) {
+                cerchio.setAlpha(val);
+            }
+        }
+        for (Croce[] croci:matriceCroci
+        ) {
+            for (Croce croce:croci
+            ) {
+                croce.setAlpha(val);
+            }
+        }
+    }
 
     void impostoAzioneBottoniTris() {
         for (Button[] btnMatrice : matriceBottoni
@@ -286,21 +360,41 @@ public class Singleplayer extends AppCompatActivity {
         return null;
     }
 
+    void animazioneTestoFinePartita(boolean animate)
+    {
+        if(animate)
+        {
+            Animation animation = new AlphaAnimation(1, 0);
+            animation.setDuration(500);
+            animation.setInterpolator(new LinearInterpolator());
+            animation.setRepeatCount(20);
+            animation.setRepeatMode(Animation.REVERSE);
+            btnNuovaPartita.setAnimation(animation);
+        }
+        else
+        {
+            btnNuovaPartita.setAnimation(null);
+        }
+    }
+
     void aggiornaTabella() {
         if (gioco.vittoria("x")) {
-            tabellaInfo.setText("Hai vinto!");
+            tabellaInfo.setText("HAI VINTO!");
+            finePartitaGrafica((float)0.5,1);
 
         } else if (gioco.vittoria("o")) {
-            tabellaInfo.setText("Hai perso");
+            tabellaInfo.setText("HAI PERSO");
+            finePartitaGrafica((float)0.5,2);
 
         } else if (gioco.pareggio()) {
-            tabellaInfo.setText("Pareggio");
+            tabellaInfo.setText("PAREGGIO");
+            finePartitaGrafica((float)0.5,3);
 
         } else {
             if (gioco.giocatore) {
-                tabellaInfo.setText("E' il tuo turno");
+                tabellaInfo.setText("E' IL TUO TURNO");
             } else {
-                tabellaInfo.setText("Attendi...");
+                tabellaInfo.setText("ATTENDI...");
             }
         }
         if(gioco.statsVuote())

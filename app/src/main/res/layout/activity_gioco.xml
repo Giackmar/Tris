@@ -6,7 +6,7 @@
     style="@style/CustomActivityAnimation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:background="#832BFF"
     android:scrollbarThumbHorizontal="@android:color/black"
     android:scrollbarThumbVertical="@android:color/black">
 
@@ -19,7 +19,7 @@
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/comfortaa_light"
         android:text="NUOVA PARTITA"
-        android:textSize="20sp"
+        android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -347,7 +347,7 @@
         android:id="@+id/layout_stats"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#AF2BFF"
+        android:background="@drawable/background"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -382,13 +382,14 @@
             style="@android:style/Widget.DeviceDefault.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@android:color/transparent"
             android:fontFamily="@font/comfortaa_light"
             android:text="AZZERA STATS"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

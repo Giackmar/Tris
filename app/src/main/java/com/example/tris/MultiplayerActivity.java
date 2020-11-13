@@ -4,10 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +33,7 @@ public class MultiplayerActivity extends AppCompatActivity {
     RelativeLayout statsLayout;
     TextView textViewStats;
     TextView statsTitle;
+    ImageView imageView;
 
     Button[][] matriceBottoni;
     Cerchio[][] matriceCerchi;
@@ -67,6 +75,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivityIfNeeded(intent,0);
+        statsLayout.callOnClick();
     }
 
     @Override
@@ -80,6 +89,7 @@ public class MultiplayerActivity extends AppCompatActivity {
 
 
         tabellaInfo = findViewById(R.id.txt_Info);
+        imageView = findViewById(R.id.imageView);
         btnStats = findViewById(R.id.btn_stats);
         statsLayout = findViewById(R.id.layout_stats);
         textViewStats = findViewById(R.id.textView_stats);
@@ -102,6 +112,7 @@ public class MultiplayerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 gioco.resettaGioco();
                 aggiornaTabella();
+                finePartitaGrafica(1,0);
             }
         });
 
@@ -111,6 +122,8 @@ public class MultiplayerActivity extends AppCompatActivity {
                 gioco.azzeraStats();
                 btnAzzeraStats.setEnabled(false);
                 impostaStats();
+                statsLayout.setVisibility(View.VISIBLE);
+                statsLayout.callOnClick();
             }
         });
 
@@ -118,12 +131,22 @@ public class MultiplayerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 impostaStats();
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_in_up);
+                statsLayout.setAnimation(animation);
+                statsLayout.setVisibility(View.VISIBLE);
+                animation.setDuration(200);
+                animation.start();
+                statsLayout.setVisibility(View.VISIBLE);
             }
         });
 
         statsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_out_up);
+                statsLayout.setAnimation(animation);
+                animation.setDuration(350);
+                animation.start();
                 statsLayout.setVisibility(View.INVISIBLE);
             }
         });
@@ -134,6 +157,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                 Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityIfNeeded(intent,0);
+                statsLayout.callOnClick();
             }
         });
 
@@ -229,9 +253,8 @@ public class MultiplayerActivity extends AppCompatActivity {
     void impostaStats()
     {
         textViewStats.setText("");
-        statsLayout.setVisibility(View.VISIBLE);
-        statsTitle.setText("\nSTATISTICHE");
         textViewStats.setText(gioco.ottieniStatsMultyPlayer());
+        statsTitle.setText("\nSTATISTICHE");
     }
 
 
@@ -262,32 +285,97 @@ public class MultiplayerActivity extends AppCompatActivity {
         return null;
     }
 
+    void animazioneTestoFinePartita(boolean animate)
+    {
+        if(animate)
+        {
+            Animation animation = new AlphaAnimation(1, 0);
+            animation.setDuration(500);
+            animation.setInterpolator(new LinearInterpolator());
+            animation.setRepeatCount(20);
+            animation.setRepeatMode(Animation.REVERSE);
+            btnNuovaPartita.setAnimation(animation);
+        }
+        else
+        {
+            btnNuovaPartita.setAnimation(null);
+        }
+    }
+
+
+    void finePartitaGrafica(float val, int win)
+    {
+
+        if(win == 0)
+        {
+            tabellaInfo.setTypeface(Typeface.DEFAULT);
+            view.setBackground(getDrawable(R.drawable.background));
+            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+            btnNuovaPartita.setTypeface(Typeface.DEFAULT);
+            animazioneTestoFinePartita(false);
+        }
+        else
+        {
+            tabellaInfo.setTypeface(Typeface.DEFAULT_BOLD);
+            tabellaInfo.setTextSize(TypedValue.COMPLEX_UNIT_SP,26);
+            btnNuovaPartita.setTypeface(Typeface.DEFAULT_BOLD);
+            animazioneTestoFinePartita(true);
+            if(win==1)
+            {
+                view.setBackground(getDrawable(R.drawable.gradient_background_win));
+            }
+            else if(win==2)
+            {
+                view.setBackground(getDrawable(R.drawable.gradient_background_lose));
+            }
+            else if(win==3)
+            {
+                view.setBackground(getDrawable(R.drawable.background));
+            }
+        }
+        imageView.setAlpha(val);
+        for (Cerchio[] cerchi:matriceCerchi
+        ) {
+            for (Cerchio cerchio:cerchi
+            ) {
+                cerchio.setAlpha(val);
+            }
+        }
+        for (Croce[] croci:matriceCroci
+        ) {
+            for (Croce croce:croci
+            ) {
+                croce.setAlpha(val);
+            }
+        }
+    }
+
     void aggiornaTabella()
     {
         if(gioco.vittoria("x"))
         {
-            tabellaInfo.setText("Ha vinto il giocatore: X");
-
+            tabellaInfo.setText("HA VINTO LA X");
+            finePartitaGrafica((float)0.7,1);
         }
         else if(gioco.vittoria("o"))
         {
-            tabellaInfo.setText("Ha vinto il giocatore: O");
-
+            tabellaInfo.setText("HA VINTO LA O");
+            finePartitaGrafica((float)0.7,2);
         }
         else if(gioco.pareggio())
         {
-            tabellaInfo.setText("Pareggio");
-
+            tabellaInfo.setText("PAREGGIO");
+            finePartitaGrafica((float)0.7,3);
         }
         else
         {
             if(gioco.giocatore)
             {
-                tabellaInfo.setText("E' il turno del giocatore: X");
+                tabellaInfo.setText("E' IL TURNO DELLA X");
             }
             else
             {
-                tabellaInfo.setText("E' il turno del giocatore: O");
+                tabellaInfo.setText("E' TURNO DELLA O");
             }
         }
         if(gioco.statsVuote())

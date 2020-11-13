@@ -773,9 +773,9 @@ public class Gioco{
     public String ottieniStatsMultyPlayer()
     {
         String stats = "\n\n\n\n\n\n";
-        stats+="VITTORIE X:  "+vittorieX[0]+"\n";
-        stats+="VITTORIE O:  "+vittorieO[0]+"\n";
-        stats+="PAREGGI:  "+pareggio[0];
+        stats+="Vittorie X:  "+vittorieX[0]+"\n";
+        stats+="Vittorie O:  "+vittorieO[0]+"\n";
+        stats+="Pareggi:  "+pareggio[0];
         return stats;
     }
 
