@@ -8,11 +8,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
-        <activity android:name=".Singleplayer" android:theme="@style/AppTheme" android:parentActivityName="com.example.tris.StartActivity" >></activity>
+        <activity android:name=".Singleplayer" android:theme="@style/AppTheme" android:parentActivityName="com.example.tris.StartActivity" android:screenOrientation="portrait">></activity>
         <activity
             android:name=".StartActivity"
             android:theme="@style/StartTheme"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +23,8 @@
         <activity
             android:name=".MultiplayerActivity"
             android:theme="@style/AppTheme"
-            android:parentActivityName="com.example.tris.StartActivity"/>
+            android:parentActivityName="com.example.tris.StartActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="preloaded_fonts"

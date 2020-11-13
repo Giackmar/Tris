@@ -32,14 +32,16 @@ public class StartActivity extends AppCompatActivity {
         btnMultiplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intentMultiplayer);
+                intentMultiplayer.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(intentMultiplayer,0);
             }
         });
 
         btnSingleplayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(intentSingleplayer);
+                intentSingleplayer.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(intentSingleplayer,0);
             }
         });
 
@@ -51,4 +53,14 @@ public class StartActivity extends AppCompatActivity {
         };
         imageView.animate().rotationBy(0).withEndAction(runnable).setDuration(0).setInterpolator(new LinearInterpolator()).start();
     }
+
+    @Override
+    public void onBackPressed() {
+        //finish();
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        this.startActivity(intent);
+    }
+
 }

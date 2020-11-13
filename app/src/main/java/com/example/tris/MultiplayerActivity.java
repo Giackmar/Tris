@@ -2,6 +2,7 @@ package com.example.tris;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -63,7 +64,10 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        finish();
+        //finish();
+        Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(intent,0);
     }
 
     @Override
@@ -107,16 +111,14 @@ public class MultiplayerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 gioco.azzeraStats();
                 btnAzzeraStats.setEnabled(false);
+                impostaStats();
             }
         });
 
         btnStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewStats.setText("");
-                statsLayout.setVisibility(View.VISIBLE);
-                statsTitle.setText("\nSTATISTICHE");
-                textViewStats.setText(gioco.ottieniStatsMultyPlayer());
+                impostaStats();
             }
         });
 
@@ -130,7 +132,10 @@ public class MultiplayerActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //finish();
+                Intent intent = new Intent(MultiplayerActivity.this, StartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(intent,0);
             }
         });
 
@@ -223,6 +228,13 @@ public class MultiplayerActivity extends AppCompatActivity {
     }
 
 
+    void impostaStats()
+    {
+        textViewStats.setText("");
+        statsLayout.setVisibility(View.VISIBLE);
+        statsTitle.setText("\nSTATISTICHE");
+        textViewStats.setText(gioco.ottieniStatsMultyPlayer());
+    }
 
 
     void impostoAzioneBottoniTris()

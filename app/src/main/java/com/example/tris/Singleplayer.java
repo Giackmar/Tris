@@ -69,7 +69,10 @@ public class Singleplayer extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        //finish();
+        Intent intent = new Intent(Singleplayer.this, StartActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(intent,0);
     }
 
     @Override
@@ -120,16 +123,14 @@ public class Singleplayer extends AppCompatActivity {
             public void onClick(View v) {
                 gioco.azzeraStats();
                 btnAzzeraStats.setEnabled(false);
+                impostaStats();
             }
         });
 
         btnStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewStats.setText("");
-                statsLayout.setVisibility(View.VISIBLE);
-                textViewStats.setText(gioco.ottieniStats());
-                statsTitle.setText("\nSTATISTICHE");
+                impostaStats();
             }
         });
 
@@ -161,7 +162,10 @@ public class Singleplayer extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //finish();
+                Intent intent = new Intent(Singleplayer.this, StartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(intent,0);
             }
         });
 
@@ -250,6 +254,14 @@ public class Singleplayer extends AppCompatActivity {
 
         impostoAzioneBottoniTris();
         aggiornaTabella();
+    }
+
+    void impostaStats()
+    {
+        textViewStats.setText("");
+        statsLayout.setVisibility(View.VISIBLE);
+        textViewStats.setText(gioco.ottieniStats());
+        statsTitle.setText("\nSTATISTICHE");
     }
 
 

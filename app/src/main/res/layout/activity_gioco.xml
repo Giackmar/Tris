@@ -15,7 +15,6 @@
         style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@android:color/transparent"
         android:fontFamily="@font/comfortaa_light"
@@ -23,7 +22,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_azzeraStatistiche" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_02"
@@ -315,21 +314,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_azzeraStatistiche"
-        style="@android:style/Widget.DeviceDefault.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@android:color/transparent"
-        android:fontFamily="@font/comfortaa_light"
-        android:text="AZZERA STATS"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_nuovaPartita"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/btn_difficolta"
         style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="wrap_content"
@@ -363,7 +347,7 @@
         android:id="@+id/layout_stats"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#8900FF"
+        android:background="#AF2BFF"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -392,6 +376,19 @@
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/btn_azzeraStatistiche"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@android:color/transparent"
+            android:fontFamily="@font/comfortaa_light"
+            android:text="AZZERA STATS"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 
